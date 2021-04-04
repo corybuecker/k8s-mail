@@ -1,0 +1,61 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: k8s-mail
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: k8s-mail
+    namespace: k8s-mail
+    labels:
+        app: k8s-mail
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: k8s-mail
+    template:
+        metadata:
+            labels:
+                app: k8s-mail
+        spec:
+            containers:
+                - name: dovecot
+                  image: corybuecker/k8s-mail:dovecot
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 24
+                      - containerPort: 993
+                  volumeMounts:
+                      - mountPath: "/etc/dovecot/secrets"
+                        name: k8s-mail-secrets
+                        readOnly: true
+                - name: postfix
+                  image: corybuecker/k8s-mail:postfix
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 25
+            volumes:
+                - name: k8s-mail-secrets
+                  secret:
+                      secretName: k8s-mail-secrets
+                      defaultMode: 0444
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: k8s-mail
+    namespace: k8s-mail
+spec:
+    type: LoadBalancer
+    selector:
+        app: k8s-mail
+    ports:
+        - protocol: TCP
+          port: 25
+          name: smtp
+        - protocol: TCP
+          port: 993
+          name: imap

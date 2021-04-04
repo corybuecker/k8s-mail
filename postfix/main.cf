@@ -1,0 +1,13 @@
+maillog_file = /dev/stdout
+
+# this setting has several side-effects, e.g. the domain of this mail
+# server is now k8s-mail.com, http://www.postfix.org/postconf.5.html#mydomain
+myhostname = mail.k8s-mail.com
+
+# disable all compatibility levels
+compatibility_level = 9999
+
+virtual_mailbox_domains = k8s-mail.com
+virtual_mailbox_maps = lmdb:/etc/postfix/virtual
+virtual_alias_maps = lmdb:/etc/postfix/virtual
+virtual_transport = lmtp:dovecot:24

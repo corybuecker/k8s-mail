@@ -1,0 +1,29 @@
+services:
+    dovecot:
+        build:
+            context: ./dovecot
+        hostname: dovecot.default.svc.cluster.local
+        environment:
+        - INITIALIZE_USER=me@example.com
+        ports:
+        # standard IMAPS port
+        - 993:993
+        # the submission service is run by Dovecot, not Postfix
+        - 587:587
+        # Standard IMAP port, note that this is not used by Dovecot. However, it is
+        # exposed to confirm with a test that no service is running
+        - 143:143
+        volumes:
+        - ${PWD}/dovecot/dovecot.conf:/etc/dovecot/dovecot.conf
+        - ${PWD}/volumes/secrets:/etc/dovecot/secrets
+    postfix:
+        build:
+            context: ./postfix
+        hostname: postfix.default.svc.cluster.local
+        depends_on:
+        - dovecot
+        volumes:
+        - ${PWD}/postfix/main.cf:/etc/postfix/main.cf
+        - ${PWD}/postfix/virtual:/etc/postfix/virtual
+        ports:
+            - 25:25
