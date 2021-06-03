@@ -2,9 +2,9 @@ services:
     dovecot:
         build:
             context: ./dovecot
-        hostname: dovecot.default.svc.cluster.local
+        hostname: dovecot.k8s-mail-internal.svc.cluster.local
         environment:
-        - INITIALIZE_USER=me@example.com
+        - INITIALIZE_USER=me@k8s-mail.com
         ports:
         # standard IMAPS port
         - 993:993
@@ -13,9 +13,11 @@ services:
         # Standard IMAP port, note that this is not used by Dovecot. However, it is
         # exposed to confirm with a test that no service is running
         - 143:143
+        # The LMTP port
+        - 24:24
         volumes:
         - ${PWD}/dovecot/dovecot.conf:/etc/dovecot/dovecot.conf
-        - ${PWD}/volumes/secrets:/etc/dovecot/secrets
+        - ${PWD}/volumes:/etc/dovecot/secrets
     postfix:
         build:
             context: ./postfix

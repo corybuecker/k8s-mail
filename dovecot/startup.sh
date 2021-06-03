@@ -10,7 +10,7 @@ check_permissions () {
 
   if [ ! $(stat -L -c %a $1) -eq 444 ]; then
     echo "bad permissions on $1...must be 444"
-    chmod 444 $1
+    exit 1
   fi
 }
 
@@ -26,6 +26,9 @@ check_permissions "/etc/dovecot/secrets/dovecot_submission_password_file"
 check_permissions "/etc/dovecot/secrets/dovecot.key"
 check_permissions "/etc/dovecot/secrets/dovecot.cer"
 
-# permissions check out, let's start Dovecot as a foreground process
+# The permissions check out, let's start Dovecot as a foreground process.
 
-dovecot -F
+# Using exec replaces the PID of this script with the PID of dovecot. This
+# allows faster shutdown by docker.
+
+exec dovecot -F

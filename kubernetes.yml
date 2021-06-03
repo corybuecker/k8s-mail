@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: k8s-mail
+    name: k8s-mail-external
     namespace: k8s-mail
 spec:
     type: LoadBalancer
@@ -59,3 +59,16 @@ spec:
         - protocol: TCP
           port: 993
           name: imap
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: k8s-mail-internal
+    namespace: k8s-mail
+spec:
+    selector:
+        app: k8s-mail
+    ports:
+        - protocol: TCP
+          port: 24
+          name: lmtp

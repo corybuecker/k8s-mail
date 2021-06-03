@@ -10,4 +10,4 @@ compatibility_level = 9999
 virtual_mailbox_domains = k8s-mail.com
 virtual_mailbox_maps = lmdb:/etc/postfix/virtual
 virtual_alias_maps = lmdb:/etc/postfix/virtual
-virtual_transport = lmtp:dovecot:24
+virtual_transport = lmtp:dovecot.k8s-mail-internal.svc.cluster.local:24

@@ -1,28 +1,11 @@
-import os
+#!/usr/bin/env python3
+
 import base64
-import yaml
+import os
 import secrets
 import string
-
-from argon2 import PasswordHasher
-
-alphabet = string.ascii_letters + string.digits
-password = ''.join(secrets.choice(alphabet) for i in range(64))
-ph = PasswordHasher()
-hash = ph.hash(password)
-
-with open('volumes/secrets/dovecot_password_file', mode='w+') as dovecot_password_file:
-    dovecot_password_file.write(
-        f"me@k8s-mail.com:{{ARGON2ID}}{hash}:nobody:nogroup")
-
-print('the one-time password is:')
-print(password)
-print('this cannot be retrieved again')
-
-sendgrid_token = input("Enter your Sendgrid token: ")
-
-with open('volumes/secrets/dovecot_submission_password_file', mode='w+') as dovecot_submission_password_file:
-    dovecot_submission_password_file.write(sendgrid_token or 'bogustoken')
+import sys
+import yaml
 
 
 secret = {
@@ -36,7 +19,7 @@ secret = {
 }
 
 
-for file in os.scandir('volumes/secrets'):
+for file in os.scandir('volumes'):
     b64 = base64.b64encode(
         bytes(open(file, mode='r').read().rstrip(), 'utf-8'))
 
