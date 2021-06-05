@@ -30,5 +30,7 @@ except Exception as e:
 conn = SMTP(host='mail.k8s-mail.com', port=587)
 conn.starttls()
 conn.login('me@k8s-mail.com', 'password')
+
+
 conn.sendmail('me@k8s-mail.com', 'me@example.org',
               'From: me@k8s-mail.com\nTo: me@example.org')
