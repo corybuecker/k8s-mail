@@ -59,6 +59,9 @@ spec:
         - protocol: TCP
           port: 993
           name: imap
+        - protocol: TCP
+          port: 587
+          name: submission
 ---
 apiVersion: v1
 kind: Service
