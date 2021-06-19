@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/corybuecker/k8s-mail#readme",
   "devDependencies": {
-    "intern": "^4.1.5",
-    "typescript": "^4.3.4"
+    "intern": ">= 4.2.0",
+    "typescript": "^4.3.4",
+    "ws": ">= 7.4.6"
   },
   "dependencies": {
     "argon2": "^0.28.2",
