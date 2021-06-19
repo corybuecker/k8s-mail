@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "argon2": "^0.28.2",
+    "js-yaml": "^4.1.0",
     "node-forge": "^0.10.0",
     "readline-sync": "^1.4.10",
     "uuid": "^8.3.2"
