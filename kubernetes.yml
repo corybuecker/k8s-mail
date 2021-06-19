@@ -4,6 +4,19 @@ kind: Namespace
 metadata:
     name: k8s-mail
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: k8s-mail
+    namespace: k8s-mail
+spec:
+    accessModes:
+        - ReadWriteOnce
+    volumeMode: Filesystem
+    resources:
+        requests:
+            storage: 5Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,6 +45,8 @@ spec:
                       - mountPath: "/etc/dovecot/secrets"
                         name: k8s-mail-secrets
                         readOnly: true
+                      - mountPath: "/home"
+                        name: k8s-mail-persistent-storage
                 - name: postfix
                   image: corybuecker/k8s-mail:postfix
                   imagePullPolicy: Always
@@ -42,6 +57,10 @@ spec:
                   secret:
                       secretName: k8s-mail-secrets
                       defaultMode: 0444
+                - name: k8s-mail-persistent-storage
+                  persistentVolumeClaim:
+                      claimName: k8s-mail
+                      defaultMode: 0777
 ---
 apiVersion: v1
 kind: Service

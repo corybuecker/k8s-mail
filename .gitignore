@@ -1,2 +1,4 @@
 /volumes
 kubernetes_with_secrets.yml
+/node_modules
+/dist

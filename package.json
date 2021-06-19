@@ -1,0 +1,33 @@
+{
+  "name": "k8s-mail",
+  "version": "1.0.0",
+  "description": "A proof-of-concept for running a MTA and mail server with Dovecot and Postfix in Kubernetes.",
+  "main": "index.ts",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "intern",
+    "run": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corybuecker/k8s-mail.git"
+  },
+  "author": "Cory Buecker",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/corybuecker/k8s-mail/issues"
+  },
+  "homepage": "https://github.com/corybuecker/k8s-mail#readme",
+  "devDependencies": {
+    "intern": "^4.1.5",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "node-forge": "^0.10.0",
+    "readline-sync": "^1.4.10",
+    "uuid": "^8.3.2"
+  }
+}
