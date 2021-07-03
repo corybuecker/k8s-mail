@@ -56,11 +56,10 @@ spec:
                 - name: k8s-mail-secrets
                   secret:
                       secretName: k8s-mail-secrets
-                      defaultMode: 0444
+                      defaultMode: 292
                 - name: k8s-mail-persistent-storage
                   persistentVolumeClaim:
                       claimName: k8s-mail
-                      defaultMode: 0777
 ---
 apiVersion: v1
 kind: Service
