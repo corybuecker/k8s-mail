@@ -2,10 +2,7 @@
 
 set -ex
 
-docker build --platform linux/amd64 -t corybuecker/k8s-mail:postfix ./postfix
-docker build --platform linux/amd64 -t corybuecker/k8s-mail:dovecot ./dovecot
-
-docker push corybuecker/k8s-mail:postfix
-docker push corybuecker/k8s-mail:dovecot
+docker buildx build -t corybuecker/k8s-mail:postfix --platform linux/amd64,linux/arm64/v8 --push ./postfix
+docker buildx build -t corybuecker/k8s-mail:dovecot --platform linux/amd64,linux/arm64/v8 --push ./dovecot
 
 docker compose build

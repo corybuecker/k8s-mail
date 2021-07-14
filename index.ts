@@ -1,11 +1,12 @@
 import generate_x509 from './src/certificate'
 import { chmod, writeFile, rm, readFile, readdir } from 'fs/promises'
 import writePassword from './src/password_generator'
+
 const yaml = require('js-yaml')
 const readlineSync = require('readline-sync')
 
 async function createVolumeFile(file: string, contents: string) {
-  await rm(file)
+  await rm(file, { force: true })
   await writeFile(file, contents, { flag: 'w+' })
   chmod(file, 0o444)
 }
@@ -23,7 +24,7 @@ const secretTemplate = {
 const program = async () => {
   console.info("starting")
 
-  const sendgridKey = "test"//readlineSync.question('Sendgrid API key? ', { hideEchoBack: true })
+  const sendgridKey = readlineSync.question('Sendgrid API key? ', { hideEchoBack: true })
 
   const certificate = await generate_x509()
   const hash = await writePassword()
@@ -49,9 +50,7 @@ const program = async () => {
 
   const sourceYaml = sourceDocs.flatMap((el: string) => yaml.dump(el)).join('---\n')
 
-
   createVolumeFile('kubernetes_with_secrets.yml', sourceYaml)
-
 
   console.info("done")
 }
