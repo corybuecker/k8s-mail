@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/node": "^20.12.12",
     "typescript": "^5.4.5",
-    "ws": ">= 8.17.0"
+    "ws": ">= 8.17.1"
   },
   "dependencies": {
     "argon2": "^0.40.3",
